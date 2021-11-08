@@ -15,12 +15,18 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textBet;
     [SerializeField]
-    private List<GameObject> slots = new List<GameObject>();
-    private GameObject[,] items=new GameObject[10,5];
+    private List<Slot> slots;
     [SerializeField]
-    private GameItem item;
-    int prize=0;
+    private Item[,] items=new Item[10,5];
+    [SerializeField]
     Combinations combinations=new Combinations();
+    private int prize = 0;
+    [SerializeField]
+    private Gamer gamer;
+
+   
+
+
 
     private int bet=0;
     
@@ -33,6 +39,7 @@ public class GameController : MonoBehaviour
         rowStopped = true;
         TakeElement();
         HandlePulled +=StartRotating;
+        
    
     }
     private void StartRotating()
@@ -41,19 +48,23 @@ public class GameController : MonoBehaviour
         {
             StartCoroutine("RollElements");
             rowStopped = false;
-           
+          
 
         }
     }
+
+   
     private void TakeElement()
     {
       
        
         for(int i = 0; i < slots.Count; i++)
         {
-            for(int j=0; j < slots[i].gameObject.transform.childCount; j++)
+            int j = 0;
+            foreach (var tempSlot in slots[i].GetItems())
             {
-                items[j, i]=slots[i].gameObject.transform.GetChild(j).gameObject;
+                items[j, i] = tempSlot;
+                j++;
             }
         }
         
@@ -92,12 +103,13 @@ public class GameController : MonoBehaviour
             {
                 for (int j = 1; j < 10; j++)
                 {
-                    items[j, i].GetComponent<Item>().FramOf();
+                    items[j, i].FramOf();
                     ChangePositon(i, j);
-                    items[j, i].transform.localPosition = new Vector3(items[j, i].transform.localPosition.x, items[j, i].transform.localPosition.y + 50f, items[j, i].transform.localPosition.z);
-                    var tempObject = items[j - 1, i].transform.gameObject;
+                    items[j, i].gameObject.transform.localPosition = new Vector3(items[j, i].transform.localPosition.x, items[j, i].transform.localPosition.y + 50f, items[j, i].transform.localPosition.z);
+                    var tempObject = items[j - 1, i];
                     items[j - 1, i] = items[j, i];
-                    items[j, i] = tempObject;
+                    items[j, i] =tempObject ;
+                 
                 }
 
 
@@ -131,7 +143,7 @@ public class GameController : MonoBehaviour
                 else
                 {
                     tempCombinatons.Add(j);
-                    prize +=bet*items[combinations.GetCombinations(i, j), j].GetComponent<Item>().GetPrice();
+                    prize +=bet*items[combinations.GetCombinations(i, j), j].GetPrice();
                     statusCombination = true;
                 }
                 
@@ -151,19 +163,19 @@ public class GameController : MonoBehaviour
         foreach (var tempIndexCell in tempCombinatons)
         {
 
-            items[combinations.GetCombinations(i, tempIndexCell), tempIndexCell].GetComponent<Item>().FrameOn();
-            items[combinations.GetCombinations(i, tempIndexCell + 1), tempIndexCell + 1].GetComponent<Item>().FrameOn();
+            items[combinations.GetCombinations(i, tempIndexCell), tempIndexCell].FrameOn();
+            items[combinations.GetCombinations(i, tempIndexCell + 1), tempIndexCell + 1].FrameOn();
 
         }
-        prizeText.text = "Prize : " + prize * 5;
-        GetComponent<Gamer>().SetPriceGamer(GetComponent<Gamer>().GetPriceGamer() + prize*5);
+        prizeText.text = "Prize : " + prize ;
+        gamer.SetPriceGamer(gamer.GetPriceGamer() + prize);
 
 
     }
 
     private bool checkItem(int _indexLine, int _indexCell)
     {
-        return items[combinations.GetCombinations(_indexLine, _indexCell), _indexCell].GetComponent<Item>().GetItemType() == items[combinations.GetCombinations(_indexLine, _indexCell+1 ), _indexCell+1 ].GetComponent<Item>().GetItemType();
+        return items[combinations.GetCombinations(_indexLine, _indexCell), _indexCell].GetItemType() == items[combinations.GetCombinations(_indexLine, _indexCell+1 ), _indexCell+1 ].GetItemType();
     }
 
 
@@ -177,10 +189,10 @@ public class GameController : MonoBehaviour
     }
     public void makeBet(int _bet)
     {
-        if (GetComponent<Gamer>().GetPriceGamer()>=_bet)
+        if (gamer.GetPriceGamer()>=_bet)
         {
             bet += _bet;
-            GetComponent<Gamer>().SetPriceGamer(GetComponent<Gamer>().GetPriceGamer() - _bet);
+            gamer.SetPriceGamer(gamer.GetPriceGamer() - _bet);
             textBet.text = "Bet: " + bet;
         }
     }

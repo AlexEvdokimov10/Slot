@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,11 +29,18 @@ public class Item : MonoBehaviour
     }
     public void FrameOn()
     {
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        gameObject.transform.Find("itemWin").gameObject.SetActive(true);
     }
     public void FramOf()
     {
-        gameObject.transform.GetChild(0).gameObject.SetActive(false);
-    }
+        try
+        {
+            gameObject.transform.Find("itemWin").gameObject.SetActive(false);
+        }
+        catch(NullReferenceException _expeption)
+        {
+            Debug.Log("Exectpion was processed");
+        }
+   }
     
 }
