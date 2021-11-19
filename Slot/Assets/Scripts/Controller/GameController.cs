@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    private float timeInerval;
+    private float timeInerval = 0;
+    private float timeRotating=0;
     public static event Action HandlePulled = delegate { };
     [SerializeField]
     private Text prizeText;
@@ -17,13 +18,16 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private List<Slot> slots;
     [SerializeField]
-    private Item[,] items=new Item[10,5];
+    private Item[,] items=new Item[12,5];
     [SerializeField]
     Combinations combinations=new Combinations();
     private int prize = 0;
     [SerializeField]
     private Gamer gamer;
-
+    [SerializeField]
+    GeneratorContorller generatorContorller;
+    [SerializeField]
+    AudioSource audioSlot;
    
 
 
@@ -36,11 +40,14 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+
+
+        generatorContorller.GenereteReels();
+        generatorContorller.GenereteItems();
+        slots = generatorContorller.GetReels();
         rowStopped = true;
         TakeElement();
         HandlePulled +=StartRotating;
-        
-   
     }
     private void StartRotating()
     {
@@ -48,7 +55,7 @@ public class GameController : MonoBehaviour
         {
             StartCoroutine("RollElements");
             rowStopped = false;
-          
+            prizeText.text = "Prize : " + prize;
 
         }
     }
@@ -60,12 +67,17 @@ public class GameController : MonoBehaviour
        
         for(int i = 0; i < slots.Count; i++)
         {
-            int j = 0;
-            foreach (var tempSlot in slots[i].GetItems())
+            int k = 0;
+            for (int j = 0;j<slots[i].Blocks.Count; j++)
             {
-                items[j, i] = tempSlot;
-                j++;
+               foreach(var tempItem in slots[i].Blocks[j].ItemsGenereted)
+                {
+                    
+                    items[k, i] = tempItem;
+                    k++;
+                }
             }
+
         }
         
     }
@@ -76,16 +88,26 @@ public class GameController : MonoBehaviour
     
     private IEnumerator RollElements()
     {
-        
-        timeInerval = 0.001f;
+
+        audioSlot.PlayDelayed(0);
+        audioSlot.loop = true;
         for (int i = 0; i < 5; i++)
         {
-            for (int j = 0; j < UnityEngine.Random.Range(100,103); j++)
+           
+            float randomValue= UnityEngine.Random.Range(1, 12) ;
+
+            
+            timeRotating = randomValue;
+            audioSlot.Play();
+            while (timeRotating>0)
             {
-                ShiftMatrix(i);
+               
+                ShiftMatrix(i,randomValue);
 
                 yield return new WaitForSeconds(timeInerval);
+                timeRotating -= Time.deltaTime;
             }
+            audioSlot.Stop();
 
         }
         TakePrize();
@@ -95,33 +117,41 @@ public class GameController : MonoBehaviour
 
 
     }
-    void ShiftMatrix(int _indexCell)
+    void ShiftMatrix(int _indexCell,float _randomValue)
     {
+       
         for (int i = 0; i < 5; i++)
         {
+            
             if (i == _indexCell)
             {
-                for (int j = 1; j < 10; j++)
+                
+                    for (int j = 1; j < 12; j++)
+                    {
+                        items[j, i].FrameOf();
+
+                        var tempObject = items[j - 1, i];
+                        items[j - 1, i] = items[j, i];
+                        items[j, i] = tempObject;
+                        
+                      
+                    }
+                for (int k = 0; k < 2; k++)
                 {
-                    items[j, i].FramOf();
-                    ChangePositon(i, j);
-                    items[j, i].gameObject.transform.localPosition = new Vector3(items[j, i].transform.localPosition.x, items[j, i].transform.localPosition.y + 50f, items[j, i].transform.localPosition.z);
-                    var tempObject = items[j - 1, i];
-                    items[j - 1, i] = items[j, i];
-                    items[j, i] =tempObject ;
-                 
+                    slots[i].Blocks[k].transform.localPosition += new Vector3(0, 50f); 
+                    ChangePositon(i, k);
+
                 }
-
-
             }
-          
         }
+        
     }
 
    
     void TakePrize()
     {
-        TakeTempCombinations(); 
+        TakeTempCombinations();
+       
         rowStopped = true;
     }
     void TakeTempCombinations()
@@ -156,6 +186,7 @@ public class GameController : MonoBehaviour
 
         }
        
+       
     }
 
     private void PrizeControl(List<int> tempCombinatons, int i)
@@ -179,11 +210,11 @@ public class GameController : MonoBehaviour
     }
 
 
-    private void ChangePositon(int _indexCell, int _indexRow)
+    private void ChangePositon(int _indexCell,int _indexBlock)
     {
-        if (items[_indexRow, _indexCell].transform.localPosition.y >= 225f)
+        if (slots[_indexCell].Blocks[_indexBlock].transform.localPosition.y > 350f)
         {
-            items[_indexRow, _indexCell].transform.localPosition = new Vector3(items[_indexRow, _indexCell].transform.localPosition.x, -225f, items[_indexRow, _indexCell].transform.localPosition.z);
+           slots[_indexCell].Blocks[_indexBlock].transform.localPosition = new Vector3(slots[_indexCell].Blocks[_indexBlock].transform.localPosition.x, -200f ,slots[_indexCell].Blocks[_indexBlock].transform.localPosition.z);
         }
         
     }

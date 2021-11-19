@@ -19,18 +19,9 @@ public class Gamer : MonoBehaviour
     void Start()
     {
         spins = 0;
-        
-    }
-
-    void Update()
-    {
-        TakePrice();
-    }
-    void TakePrice()
-    {
         textMeshPrice.text = priceGamer.ToString();
-    }
-    
+
+    }    
     public int GetPriceGamer()
     {
         return priceGamer;
@@ -38,5 +29,6 @@ public class Gamer : MonoBehaviour
     public void SetPriceGamer(int _price)
     {
         this.priceGamer = _price;
+        textMeshPrice.text = priceGamer.ToString();
     }
 }

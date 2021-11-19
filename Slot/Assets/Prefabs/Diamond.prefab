@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3870697202893062954}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 989.9998}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.025532052, y: 0.025532052, z: 0.025532052}
   m_Children: []
   m_Father: {fileID: 690301139469998172}
@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.010000944, y: 0.08}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7446413699557238109
@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 690301139469998172}
   - component: {fileID: 6789285647309359507}
-  - component: {fileID: 7599752108667667387}
+  - component: {fileID: 4715835603447527756}
   m_Layer: 5
   m_Name: Diamond
   m_TagString: Untagged
@@ -101,7 +101,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9013858938429577582}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3, y: 225, z: -38768.4}
+  m_LocalPosition: {x: 1.9968983, y: 75, z: 0}
   m_LocalScale: {x: 39.16, y: 39.16, z: 39.16}
   m_Children:
   - {fileID: 8159702673146979794}
@@ -159,7 +159,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
   m_SpriteSortPoint: 0
---- !u!114 &7599752108667667387
+--- !u!114 &4715835603447527756
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,5 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff6a2d121c16a647855bb9f3e67ebc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameObject: {fileID: 9013858938429577582}
   type: 0
-  itemPrice: 1
+  itemPrice: 8

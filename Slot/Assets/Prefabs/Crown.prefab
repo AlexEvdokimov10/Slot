@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3427028830515507722}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 989.9998}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.025532052, y: 0.025532052, z: 0.025532052}
   m_Children: []
   m_Father: {fileID: 4729574765098315390}
@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.010000467, y: -0.068}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3886916669177272523
@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4729574765098315390}
   - component: {fileID: 2452482367433142143}
-  - component: {fileID: 7884478465083094566}
+  - component: {fileID: -8917032536312455602}
   m_Layer: 5
   m_Name: Crown
   m_TagString: Untagged
@@ -101,7 +101,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7508012079813626970}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3, y: 175, z: -38768.4}
+  m_LocalPosition: {x: 1.9968983, y: 125, z: 0}
   m_LocalScale: {x: 39.16, y: 39.16, z: 39.16}
   m_Children:
   - {fileID: 6779809245059571032}
@@ -159,7 +159,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
   m_SpriteSortPoint: 0
---- !u!114 &7884478465083094566
+--- !u!114 &-8917032536312455602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,5 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff6a2d121c16a647855bb9f3e67ebc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameObject: {fileID: 7508012079813626970}
   type: 1
-  itemPrice: 30
+  itemPrice: 10

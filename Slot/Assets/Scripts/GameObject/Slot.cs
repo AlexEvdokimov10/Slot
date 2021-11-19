@@ -5,12 +5,7 @@ using UnityEngine;
 public class Slot : MonoBehaviour
 {
     [SerializeField]
-    List<Item> items;
-    
-    public List<Item> GetItems()
-    {
-        return items;
-    }
-    
-    
+    List<Block> blocks;
+
+    public List<Block> Blocks { get => blocks; set => blocks = value; }
 }
